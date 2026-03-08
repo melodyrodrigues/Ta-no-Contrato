@@ -1,5 +1,7 @@
 import { useState, useCallback } from "react";
-import { Upload, FileText, Loader2, Image } from "lucide-react";
+import { Upload, FileText, Loader2, Image, History } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
