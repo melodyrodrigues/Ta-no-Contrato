@@ -19,7 +19,7 @@ const Auth = () => {
   const { user } = useAuth();
 
   useEffect(() => {
-    if (user) navigate("/");
+    if (user) navigate("/historico");
   }, [user, navigate]);
 
   const handleForgotPassword = async (e: React.FormEvent) => {
