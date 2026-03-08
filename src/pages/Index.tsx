@@ -122,26 +122,15 @@ const Index = () => {
           {/* Auth buttons */}
           <div className="absolute top-4 right-4 flex gap-2">
             {user ? (
-              <>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => navigate("/historico")}
-                  className="text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10"
-                >
-                  <History className="mr-1.5 h-4 w-4" />
-                  Histórico
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={signOut}
-                  className="text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10"
-                >
-                  <LogOut className="mr-1.5 h-4 w-4" />
-                  Sair
-                </Button>
-              </>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={signOut}
+                className="text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10"
+              >
+                <LogOut className="mr-1.5 h-4 w-4" />
+                Sair
+              </Button>
             ) : (
               <Button
                 variant="ghost"
