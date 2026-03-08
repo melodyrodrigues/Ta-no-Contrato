@@ -1,11 +1,13 @@
 import { useState, useCallback } from "react";
-import { Upload, FileText, Loader2 } from "lucide-react";
+import { Upload, FileText, Loader2, Image } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import * as pdfjsLib from "pdfjs-dist";
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.mjs`;
+
+const EXTRACT_IMAGE_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/extract-text-from-image`;
 
 interface ContractUploadProps {
   onAnalyze: (text: string) => void;
@@ -25,39 +27,76 @@ async function extractPdfText(file: File): Promise<string> {
   return pages.join("\n\n");
 }
 
-const ContractUpload = ({ onAnalyze, isLoading }: ContractUploadProps) => {
-  const [contractText, setContractText] = useState("");
-  const [dragActive, setDragActive] = useState(false);
-  const [extracting, setExtracting] = useState(false);
+async function extractImageText(file: File): Promise<string> {
+  const arrayBuffer = await file.arrayBuffer();
+  const base64 = btoa(
+    new Uint8Array(arrayBuffer).reduce((data, byte) => data + String.fromCharCode(byte), "")
+  );
 
-  const handleFile = useCallback(async (file: File) => {
-    if (file.type === "application/pdf" || file.name.endsWith(".pdf")) {
-      setExtracting(true);
-      try {
-        const text = await extractPdfText(file);
-        if (text.trim().length === 0) {
-          toast.error("Não foi possível extrair texto do PDF. O arquivo pode ser uma imagem escaneada.");
-          return;
-        }
-        setContractText(text);
-        toast.success(`PDF carregado: ${file.name}`);
-      } catch (err) {
-        console.error("PDF extraction error:", err);
-        toast.error("Erro ao ler o PDF. Tente outro arquivo.");
-      } finally {
-        setExtracting(false);
+  const resp = await fetch(EXTRACT_IMAGE_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+    },
+    body: JSON.stringify({ imageBase64: base64, mimeType: file.type }),
+  });
+
+  if (!resp.ok) {
+    const err = await resp.json().catch(() => ({ error: "Erro desconhecido" }));
+    throw new Error(err.error || "Erro ao extrair texto da imagem");
+  }
+
+  const data = await resp.json();
+  return data.text;
+}
+
+const IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
+
+const handleFileLogic = async (
+  file: File,
+  setExtracting: (v: boolean) => void,
+  setContractText: (v: string) => void
+) => {
+  if (file.type === "application/pdf" || file.name.endsWith(".pdf")) {
+    setExtracting(true);
+    try {
+      const text = await extractPdfText(file);
+      if (text.trim().length === 0) {
+        toast.error("Não foi possível extrair texto do PDF. O arquivo pode ser uma imagem escaneada.");
+        return;
       }
-    } else if (file.type === "text/plain" || file.name.endsWith(".txt")) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const text = e.target?.result as string;
-        if (text) setContractText(text);
-      };
-      reader.readAsText(file);
-    } else {
-      toast.error("Formato não suportado. Use .pdf ou .txt");
+      setContractText(text);
+      toast.success(`PDF carregado: ${file.name}`);
+    } catch (err) {
+      console.error("PDF extraction error:", err);
+      toast.error("Erro ao ler o PDF. Tente outro arquivo.");
+    } finally {
+      setExtracting(false);
     }
-  }, []);
+  } else if (IMAGE_TYPES.includes(file.type)) {
+    setExtracting(true);
+    try {
+      const text = await extractImageText(file);
+      setContractText(text);
+      toast.success(`Texto extraído da imagem: ${file.name}`);
+    } catch (err: any) {
+      console.error("Image extraction error:", err);
+      toast.error(err.message || "Erro ao extrair texto da imagem.");
+    } finally {
+      setExtracting(false);
+    }
+  } else if (file.type === "text/plain" || file.name.endsWith(".txt")) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const text = e.target?.result as string;
+      if (text) setContractText(text);
+    };
+    reader.readAsText(file);
+  } else {
+    toast.error("Formato não suportado. Use .pdf, .txt ou imagem (.jpg, .png, .webp)");
+  }
+};
 
   const handleDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
