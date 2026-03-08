@@ -1,5 +1,6 @@
 import { useState, useCallback } from "react";
-import { Shield, FileSearch, AlertTriangle, History, LogIn, LogOut, Sparkles } from "lucide-react";
+import { FileSearch, AlertTriangle, History, LogIn, LogOut, Sparkles, Shield } from "lucide-react";
+import logo from "@/assets/logo.png";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
