@@ -53,50 +53,51 @@ async function extractImageText(file: File): Promise<string> {
 
 const IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
 
-const handleFileLogic = async (
-  file: File,
-  setExtracting: (v: boolean) => void,
-  setContractText: (v: string) => void
-) => {
-  if (file.type === "application/pdf" || file.name.endsWith(".pdf")) {
-    setExtracting(true);
-    try {
-      const text = await extractPdfText(file);
-      if (text.trim().length === 0) {
-        toast.error("Não foi possível extrair texto do PDF. O arquivo pode ser uma imagem escaneada.");
-        return;
+const ContractUpload = ({ onAnalyze, isLoading }: ContractUploadProps) => {
+  const [contractText, setContractText] = useState("");
+  const [dragActive, setDragActive] = useState(false);
+  const [extracting, setExtracting] = useState(false);
+
+  const handleFile = useCallback(async (file: File) => {
+    if (file.type === "application/pdf" || file.name.endsWith(".pdf")) {
+      setExtracting(true);
+      try {
+        const text = await extractPdfText(file);
+        if (text.trim().length === 0) {
+          toast.error("Não foi possível extrair texto do PDF. O arquivo pode ser uma imagem escaneada.");
+          return;
+        }
+        setContractText(text);
+        toast.success(`PDF carregado: ${file.name}`);
+      } catch (err) {
+        console.error("PDF extraction error:", err);
+        toast.error("Erro ao ler o PDF. Tente outro arquivo.");
+      } finally {
+        setExtracting(false);
       }
-      setContractText(text);
-      toast.success(`PDF carregado: ${file.name}`);
-    } catch (err) {
-      console.error("PDF extraction error:", err);
-      toast.error("Erro ao ler o PDF. Tente outro arquivo.");
-    } finally {
-      setExtracting(false);
+    } else if (IMAGE_TYPES.includes(file.type)) {
+      setExtracting(true);
+      try {
+        const text = await extractImageText(file);
+        setContractText(text);
+        toast.success(`Texto extraído da imagem: ${file.name}`);
+      } catch (err: any) {
+        console.error("Image extraction error:", err);
+        toast.error(err.message || "Erro ao extrair texto da imagem.");
+      } finally {
+        setExtracting(false);
+      }
+    } else if (file.type === "text/plain" || file.name.endsWith(".txt")) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const text = e.target?.result as string;
+        if (text) setContractText(text);
+      };
+      reader.readAsText(file);
+    } else {
+      toast.error("Formato não suportado. Use .pdf, .txt ou imagem (.jpg, .png, .webp)");
     }
-  } else if (IMAGE_TYPES.includes(file.type)) {
-    setExtracting(true);
-    try {
-      const text = await extractImageText(file);
-      setContractText(text);
-      toast.success(`Texto extraído da imagem: ${file.name}`);
-    } catch (err: any) {
-      console.error("Image extraction error:", err);
-      toast.error(err.message || "Erro ao extrair texto da imagem.");
-    } finally {
-      setExtracting(false);
-    }
-  } else if (file.type === "text/plain" || file.name.endsWith(".txt")) {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const text = e.target?.result as string;
-      if (text) setContractText(text);
-    };
-    reader.readAsText(file);
-  } else {
-    toast.error("Formato não suportado. Use .pdf, .txt ou imagem (.jpg, .png, .webp)");
-  }
-};
+  }, []);
 
   const handleDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -132,15 +133,20 @@ const handleFileLogic = async (
           </div>
           <div>
             <p className="text-lg font-medium text-foreground">
-              {extracting ? "Extraindo texto do PDF..." : "Arraste um arquivo aqui"}
+              {extracting ? "Extraindo texto..." : "Arraste um arquivo aqui"}
             </p>
             <p className="text-sm text-muted-foreground mt-1">
-              ou clique para selecionar (.pdf ou .txt)
+              ou clique para selecionar (.pdf, .txt ou imagem)
             </p>
+            <div className="flex items-center justify-center gap-2 mt-2">
+              <FileText className="h-4 w-4 text-muted-foreground" />
+              <Image className="h-4 w-4 text-muted-foreground" />
+              <span className="text-xs text-muted-foreground">PDF, TXT, JPG, PNG, WEBP</span>
+            </div>
           </div>
           <input
             type="file"
-            accept=".pdf,.txt"
+            accept=".pdf,.txt,.jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
             onChange={handleFileInput}
             className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
             disabled={extracting}
