@@ -1,5 +1,6 @@
 import { useState, useCallback } from "react";
-import { Shield, FileSearch, AlertTriangle, History, LogIn, LogOut, Sparkles } from "lucide-react";
+import { FileSearch, AlertTriangle, History, LogIn, LogOut, Sparkles, Shield } from "lucide-react";
+import logo from "@/assets/logo.png";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -146,9 +147,7 @@ const Index = () => {
           </div>
 
           <div className="flex justify-center mb-7 animate-float">
-            <div className="rounded-2xl bg-primary-foreground/8 backdrop-blur-md p-4 ring-1 ring-primary-foreground/10">
-              <Shield className="h-9 w-9 text-primary-foreground/90" />
-            </div>
+            <img src={logo} alt="Tá no Contrato logo" className="h-16 w-16 md:h-20 md:w-20" />
           </div>
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-heading text-primary-foreground mb-4 tracking-tight text-balance">
             Tá no Contrato
