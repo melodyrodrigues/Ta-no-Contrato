@@ -71,6 +71,18 @@ const Auth = () => {
     <div className="min-h-screen bg-background flex flex-col">
       <header className="gradient-hero">
         <div className="container max-w-5xl mx-auto px-6 py-14 md:py-16 text-center relative z-10">
+          {/* Botão Voltar */}
+          <div className="absolute top-5 left-5 md:top-6 md:left-6">
+            <Button
+              variant="ghost"
+              size="default"
+              onClick={() => navigate("/")}
+              className="text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10 rounded-full px-5 text-base font-semibold backdrop-blur-sm"
+            >
+              ← Voltar
+            </Button>
+          </div>
+
           <div className="flex justify-center mb-4">
             <div className="rounded-2xl bg-primary-foreground/8 backdrop-blur-md p-3.5 ring-1 ring-primary-foreground/10">
               <Shield className="h-7 w-7 text-primary-foreground/90" />
