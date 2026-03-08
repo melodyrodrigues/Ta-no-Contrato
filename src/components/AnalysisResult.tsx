@@ -1,7 +1,7 @@
 import { useRef, useCallback } from "react";
 import ReactMarkdown from "react-markdown";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { ArrowUp, Download, Loader2 } from "lucide-react";
+import { ArrowUp, Download, Loader2, Save } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -10,6 +10,8 @@ interface AnalysisResultProps {
   content: string;
   isStreaming: boolean;
   onNewAnalysis: () => void;
+  onSaveHistory: () => Promise<void>;
+  contractText: string;
 }
 
 const AnalysisResult = ({ content, isStreaming, onNewAnalysis }: AnalysisResultProps) => {
