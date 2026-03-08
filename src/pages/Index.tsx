@@ -181,6 +181,7 @@ const Index = () => {
                 <History className="h-6 w-6 text-primary mx-auto mb-2" />
                 <h3 className="font-semibold text-foreground text-sm">Histórico</h3>
                 <p className="text-xs text-muted-foreground mt-1">Análises salvas</p>
+                <p className="text-xs text-primary font-medium mt-1">Clique aqui para acessar</p>
               </div>
             )}
           </div>
