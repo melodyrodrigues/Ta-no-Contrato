@@ -1,8 +1,6 @@
-# Welcome to your Lovable project
+# Tá no Contrato
 
-## Project info
-
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+Um aplicativo que ajuda usuários a entender contratos de forma simples e acessível. Por meio de upload, foto ou escaneamento de documentos, a solução analisa o conteúdo e apresenta resumos, pontos de atenção, riscos e cláusulas relevantes em linguagem clara. O produto busca reduzir a barreira do juridiquês, oferecendo mais segurança e compreensão antes da assinatura de contratos, com potencial de atuação tanto para consumidores quanto para empresas.
 
 ## How can I edit this code?
 
