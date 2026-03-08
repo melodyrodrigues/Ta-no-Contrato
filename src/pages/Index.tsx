@@ -210,6 +210,11 @@ const Index = () => {
             isStreaming={isLoading}
             onNewAnalysis={handleNewAnalysis}
             onSaveHistory={async () => {
+              if (!user) {
+                toast.info("Faça login para salvar suas análises.");
+                navigate("/auth");
+                return;
+              }
               await saveAnalysis(lastContractText, analysis);
               navigate("/historico");
             }}
