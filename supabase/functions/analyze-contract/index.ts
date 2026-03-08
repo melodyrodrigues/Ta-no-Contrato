@@ -12,7 +12,7 @@ Analise o texto do contrato enviado e responda em português do Brasil, em lingu
 Sua resposta deve seguir EXATAMENTE esta estrutura com os títulos em markdown:
 
 ## 📄 1. Tipo do contrato
-(Identifique o tipo: imobiliário, bancário, prestação de serviços, compra e venda, escolar, etc.)
+(Identifique o tipo: imobiliário, bancário, prestação de serviços, compra e venda, escolar, etc. Explique de forma detalhada o que é esse tipo de contrato, para que serve, em quais situações ele é usado, quais são as partes envolvidas e qual a finalidade principal desse documento. Dê contexto para que o leitor entenda a importância e o propósito desse tipo de acordo.)
 
 ## 📝 2. Resumo simples
 (Explique em poucas frases o que o contrato faz, como se estivesse explicando para alguém sem conhecimento jurídico)
