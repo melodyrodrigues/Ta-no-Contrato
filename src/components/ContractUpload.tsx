@@ -1,5 +1,7 @@
 import { useState, useCallback } from "react";
-import { Upload, FileText, Loader2, Image } from "lucide-react";
+import { Upload, FileText, Loader2, Image, History } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
@@ -94,6 +96,8 @@ async function extractImageText(file: File): Promise<string> {
 const IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
 
 const ContractUpload = ({ onAnalyze, isLoading }: ContractUploadProps) => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const [contractText, setContractText] = useState("");
   const [dragActive, setDragActive] = useState(false);
   const [extracting, setExtracting] = useState(false);
@@ -199,6 +203,21 @@ const ContractUpload = ({ onAnalyze, isLoading }: ContractUploadProps) => {
         <span className="text-sm text-muted-foreground font-medium">ou cole o texto abaixo</span>
         <div className="flex-1 h-px bg-border" />
       </div>
+
+      {user && (
+        <div
+          className="rounded-xl bg-card shadow-card border border-border p-4 flex items-center gap-4 cursor-pointer hover:shadow-card-hover transition-shadow"
+          onClick={() => navigate("/historico")}
+        >
+          <div className="rounded-full bg-primary/10 p-3">
+            <History className="h-5 w-5 text-primary" />
+          </div>
+          <div>
+            <h3 className="font-semibold text-foreground text-sm">Histórico de Análises</h3>
+            <p className="text-xs text-muted-foreground">Acesse suas análises salvas</p>
+          </div>
+        </div>
+      )}
 
       <Textarea
         value={contractText}
