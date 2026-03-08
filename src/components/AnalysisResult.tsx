@@ -52,16 +52,16 @@ const AnalysisResult = ({ content, isStreaming, onNewAnalysis, onSaveHistory }: 
 
   return (
     <div className="w-full max-w-3xl mx-auto animate-scale-in">
-      <div className="rounded-2xl bg-card shadow-card border border-border overflow-hidden">
+      <div className="rounded-2xl bg-card shadow-premium overflow-hidden">
         {/* Header */}
-        <div className="gradient-hero px-6 py-5 flex items-center justify-between relative z-10">
-          <div className="flex items-center gap-3">
+        <div className="gradient-hero px-7 py-6 flex items-center justify-between relative z-10">
+          <div className="flex items-center gap-3.5">
             {isStreaming ? (
-              <div className="h-2.5 w-2.5 rounded-full bg-secondary animate-pulse-soft" />
+              <div className="h-2 w-2 rounded-full bg-secondary animate-pulse-soft" />
             ) : (
-              <CheckCircle className="h-5 w-5 text-primary-foreground/80" />
+              <CheckCircle className="h-4.5 w-4.5 text-primary-foreground/70" />
             )}
-            <h2 className="text-xl font-heading text-primary-foreground">
+            <h2 className="text-lg md:text-xl font-heading text-primary-foreground tracking-tight">
               {isStreaming ? "Analisando..." : "Resultado da Análise"}
             </h2>
           </div>
@@ -72,14 +72,14 @@ const AnalysisResult = ({ content, isStreaming, onNewAnalysis, onSaveHistory }: 
                 size="sm"
                 onClick={handleExportPdf}
                 disabled={exporting}
-                className="text-primary-foreground/70 hover:text-primary-foreground hover:bg-primary-foreground/10 rounded-full"
+                className="text-primary-foreground/50 hover:text-primary-foreground hover:bg-primary-foreground/8 rounded-full text-xs font-medium"
               >
                 {exporting ? (
-                  <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />
+                  <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
                 ) : (
-                  <Download className="mr-1.5 h-4 w-4" />
+                  <Download className="mr-1.5 h-3.5 w-3.5" />
                 )}
-                Exportar PDF
+                Exportar
               </Button>
             )}
           </div>
@@ -87,20 +87,20 @@ const AnalysisResult = ({ content, isStreaming, onNewAnalysis, onSaveHistory }: 
 
         {/* Content */}
         <ScrollArea className="h-[60vh]">
-          <div ref={contentRef} className="p-6 md:p-10">
+          <div ref={contentRef} className="p-7 md:p-10 lg:p-12">
             <div className="prose prose-sm md:prose-base max-w-none
-              prose-headings:font-heading prose-headings:text-foreground
-              prose-h2:text-xl prose-h2:mt-8 prose-h2:mb-3 prose-h2:pb-2 prose-h2:border-b prose-h2:border-border
-              prose-p:text-foreground/80 prose-p:leading-relaxed
-              prose-li:text-foreground/80
-              prose-strong:text-foreground
-              prose-ul:space-y-1.5
+              prose-headings:font-heading prose-headings:text-foreground prose-headings:tracking-tight
+              prose-h2:text-lg prose-h2:md:text-xl prose-h2:mt-10 prose-h2:mb-4 prose-h2:pb-3 prose-h2:border-b prose-h2:border-border/50
+              prose-p:text-foreground/75 prose-p:leading-[1.8]
+              prose-li:text-foreground/75 prose-li:leading-[1.7]
+              prose-strong:text-foreground prose-strong:font-semibold
+              prose-ul:space-y-2
               first:prose-h2:mt-0
             ">
               <ReactMarkdown>{content}</ReactMarkdown>
             </div>
             {isStreaming && (
-              <span className="inline-block w-2 h-5 bg-primary rounded-sm animate-pulse-soft ml-1" />
+              <span className="inline-block w-1.5 h-5 bg-primary/60 rounded-sm animate-pulse-soft ml-0.5" />
             )}
           </div>
         </ScrollArea>
@@ -108,11 +108,11 @@ const AnalysisResult = ({ content, isStreaming, onNewAnalysis, onSaveHistory }: 
 
       {/* Actions */}
       {!isStreaming && content && (
-        <div className="mt-8 flex flex-col sm:flex-row justify-center gap-3 animate-fade-in-up">
+        <div className="mt-10 flex flex-col sm:flex-row justify-center gap-3.5 animate-fade-in-up">
           <Button
             onClick={handleSaveHistory}
             disabled={saving}
-            className="rounded-2xl h-12 px-6 bg-primary text-primary-foreground hover:bg-primary/90 hover:shadow-card-hover transition-all duration-300"
+            className="rounded-2xl h-12 px-8 bg-primary text-primary-foreground hover:bg-primary/90 hover:shadow-card-hover transition-all duration-500 ease-out text-sm font-semibold"
           >
             {saving ? (
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -124,7 +124,7 @@ const AnalysisResult = ({ content, isStreaming, onNewAnalysis, onSaveHistory }: 
           <Button
             onClick={onNewAnalysis}
             variant="outline"
-            className="rounded-2xl h-12 px-6 border-border hover:bg-muted transition-all duration-300"
+            className="rounded-2xl h-12 px-8 border-border/60 hover:bg-muted/50 transition-all duration-500 ease-out text-sm font-medium"
           >
             <ArrowUp className="mr-2 h-4 w-4" />
             Analisar outro contrato

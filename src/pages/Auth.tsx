@@ -70,40 +70,43 @@ const Auth = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <header className="gradient-hero">
-        <div className="container max-w-4xl mx-auto px-4 py-10 text-center">
-          <div className="flex justify-center mb-3">
-            <div className="rounded-2xl bg-primary-foreground/10 backdrop-blur-sm p-3">
-              <Shield className="h-8 w-8 text-primary-foreground" />
+        <div className="container max-w-5xl mx-auto px-6 py-14 md:py-16 text-center relative z-10">
+          <div className="flex justify-center mb-4">
+            <div className="rounded-2xl bg-primary-foreground/8 backdrop-blur-md p-3.5 ring-1 ring-primary-foreground/10">
+              <Shield className="h-7 w-7 text-primary-foreground/90" />
             </div>
           </div>
-          <h1 className="text-2xl md:text-4xl font-heading text-primary-foreground">
+          <h1 className="text-2xl md:text-4xl font-heading text-primary-foreground tracking-tight">
             Tá no Contrato
           </h1>
+          <p className="text-sm text-primary-foreground/35 mt-2 italic">
+            O que ninguém te explica, mas tá no contrato.
+          </p>
         </div>
       </header>
 
-      <main className="flex-1 flex items-start justify-center px-4 py-10">
-        <div className="w-full max-w-md rounded-2xl bg-card shadow-card border border-border p-8">
-          <h2 className="text-xl font-heading text-foreground text-center mb-6">
+      <main className="flex-1 flex items-start justify-center px-6 py-12 md:py-16">
+        <div className="w-full max-w-md rounded-2xl bg-card shadow-premium border border-border/40 p-8 md:p-10">
+          <h2 className="text-xl font-heading text-foreground text-center mb-8 tracking-tight">
             {mode === "forgot" ? "Recuperar senha" : mode === "login" ? "Entrar na sua conta" : "Criar uma conta"}
           </h2>
 
           {mode === "forgot" ? (
-            <form onSubmit={handleForgotPassword} className="space-y-4">
-              <p className="text-sm text-muted-foreground text-center">
+            <form onSubmit={handleForgotPassword} className="space-y-5">
+              <p className="text-sm text-muted-foreground/70 text-center leading-relaxed">
                 Informe seu e-mail e enviaremos um link para redefinir sua senha.
               </p>
-              <div className="space-y-2">
-                <Label htmlFor="reset-email">E-mail</Label>
+              <div className="space-y-2.5">
+                <Label htmlFor="reset-email" className="text-xs font-medium text-muted-foreground uppercase tracking-wider">E-mail</Label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                  <Mail className="absolute left-3.5 top-3 h-4 w-4 text-muted-foreground/50" />
                   <Input
                     id="reset-email"
                     type="email"
                     placeholder="seu@email.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="pl-10"
+                    className="pl-11 h-11 rounded-xl border-border/60 bg-background/50 focus:bg-background transition-colors"
                     required
                   />
                 </div>
@@ -111,15 +114,15 @@ const Auth = () => {
               <Button
                 type="submit"
                 disabled={loading}
-                className="w-full h-12 rounded-xl text-base font-semibold bg-primary text-primary-foreground hover:bg-primary/90"
+                className="w-full h-12 rounded-xl text-sm font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-500"
               >
-                {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : "Enviar link de recuperação"}
+                {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Enviar link de recuperação"}
               </Button>
               <div className="text-center">
                 <button
                   type="button"
                   onClick={() => setMode("login")}
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  className="text-sm text-muted-foreground/60 hover:text-foreground transition-colors"
                 >
                   Voltar ao login
                 </button>
@@ -127,52 +130,52 @@ const Auth = () => {
             </form>
           ) : (
             <>
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-5">
                 {mode === "signup" && (
-                  <div className="space-y-2">
-                    <Label htmlFor="name">Nome</Label>
+                  <div className="space-y-2.5">
+                    <Label htmlFor="name" className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Nome</Label>
                     <div className="relative">
-                      <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                      <User className="absolute left-3.5 top-3 h-4 w-4 text-muted-foreground/50" />
                       <Input
                         id="name"
                         type="text"
                         placeholder="Seu nome"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        className="pl-10"
+                        className="pl-11 h-11 rounded-xl border-border/60 bg-background/50 focus:bg-background transition-colors"
                         required
                       />
                     </div>
                   </div>
                 )}
 
-                <div className="space-y-2">
-                  <Label htmlFor="email">E-mail</Label>
+                <div className="space-y-2.5">
+                  <Label htmlFor="email" className="text-xs font-medium text-muted-foreground uppercase tracking-wider">E-mail</Label>
                   <div className="relative">
-                    <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Mail className="absolute left-3.5 top-3 h-4 w-4 text-muted-foreground/50" />
                     <Input
                       id="email"
                       type="email"
                       placeholder="seu@email.com"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="pl-10"
+                      className="pl-11 h-11 rounded-xl border-border/60 bg-background/50 focus:bg-background transition-colors"
                       required
                     />
                   </div>
                 </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="password">Senha</Label>
+                <div className="space-y-2.5">
+                  <Label htmlFor="password" className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Senha</Label>
                   <div className="relative">
-                    <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Lock className="absolute left-3.5 top-3 h-4 w-4 text-muted-foreground/50" />
                     <Input
                       id="password"
                       type="password"
                       placeholder="Mínimo 6 caracteres"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="pl-10"
+                      className="pl-11 h-11 rounded-xl border-border/60 bg-background/50 focus:bg-background transition-colors"
                       minLength={6}
                       required
                     />
@@ -184,7 +187,7 @@ const Auth = () => {
                     <button
                       type="button"
                       onClick={() => setMode("forgot")}
-                      className="text-sm text-primary hover:text-primary/80 transition-colors"
+                      className="text-xs text-primary/70 hover:text-primary transition-colors"
                     >
                       Esqueceu a senha?
                     </button>
@@ -194,10 +197,10 @@ const Auth = () => {
                 <Button
                   type="submit"
                   disabled={loading}
-                  className="w-full h-12 rounded-xl text-base font-semibold bg-primary text-primary-foreground hover:bg-primary/90"
+                  className="w-full h-12 rounded-xl text-sm font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-500"
                 >
                   {loading ? (
-                    <Loader2 className="h-5 w-5 animate-spin" />
+                    <Loader2 className="h-4 w-4 animate-spin" />
                   ) : mode === "login" ? (
                     "Entrar"
                   ) : (
@@ -206,19 +209,17 @@ const Auth = () => {
                 </Button>
               </form>
 
-              <div className="relative my-6">
-                <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-border" />
-                </div>
-                <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-card px-2 text-muted-foreground">ou continue com</span>
+              <div className="relative my-8">
+                <div className="premium-divider w-full" />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="bg-card px-3 text-xs uppercase text-muted-foreground/40 tracking-[0.15em]">ou continue com</span>
                 </div>
               </div>
 
               <Button
                 type="button"
                 variant="outline"
-                className="w-full h-12 rounded-xl text-base font-medium border-border hover:bg-muted"
+                className="w-full h-12 rounded-xl text-sm font-medium border-border/50 hover:bg-muted/40 transition-all duration-300"
                 onClick={async () => {
                   const { error } = await lovable.auth.signInWithOAuth("google", {
                     redirect_uri: window.location.origin,
@@ -226,7 +227,7 @@ const Auth = () => {
                   if (error) toast.error("Erro ao entrar com Google");
                 }}
               >
-                <svg className="mr-2 h-5 w-5" viewBox="0 0 24 24">
+                <svg className="mr-2.5 h-4.5 w-4.5" viewBox="0 0 24 24">
                   <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/>
                   <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
                   <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
@@ -235,10 +236,10 @@ const Auth = () => {
                 Entrar com Google
               </Button>
 
-              <div className="mt-6 text-center">
+              <div className="mt-8 text-center">
                 <button
                   onClick={() => setMode(mode === "login" ? "signup" : "login")}
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  className="text-sm text-muted-foreground/50 hover:text-foreground transition-colors"
                 >
                   {mode === "login" ? "Não tem conta? Criar uma conta" : "Já tem conta? Entrar"}
                 </button>
