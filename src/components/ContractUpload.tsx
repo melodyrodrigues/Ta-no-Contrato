@@ -1,6 +1,5 @@
 import { useState, useCallback } from "react";
-import { Upload, FileText, Loader2, Image, History } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Upload, FileText, Loader2, Image } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -54,17 +53,12 @@ async function extractPdfViaOCR(file: File): Promise<string> {
 }
 
 async function extractPdfText(file: File): Promise<string> {
-  // Try native text extraction first
   try {
     const text = await extractPdfTextNative(file);
-    if (text.trim().length > 50) {
-      return text;
-    }
+    if (text.trim().length > 50) return text;
   } catch (e) {
     console.log("Native PDF extraction failed, falling back to OCR:", e);
   }
-
-  // Fallback to OCR for scanned PDFs
   console.log("PDF appears to be scanned, using OCR...");
   return await extractPdfViaOCR(file);
 }
@@ -97,7 +91,6 @@ const IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
 
 const ContractUpload = ({ onAnalyze, isLoading }: ContractUploadProps) => {
   const { user } = useAuth();
-  const navigate = useNavigate();
   const [contractText, setContractText] = useState("");
   const [dragActive, setDragActive] = useState(false);
   const [extracting, setExtracting] = useState(false);
@@ -155,20 +148,26 @@ const ContractUpload = ({ onAnalyze, isLoading }: ContractUploadProps) => {
     if (file) handleFile(file);
   }, [handleFile]);
 
+  const canAnalyze = contractText.trim().length >= 20;
+  const hasText = contractText.trim().length > 0;
+
   return (
-    <div className="w-full max-w-3xl mx-auto space-y-6">
+    <div className="w-full max-w-3xl mx-auto space-y-8 animate-fade-in">
+      {/* Drop Zone */}
       <div
-        className={`relative rounded-2xl border-2 border-dashed p-8 text-center transition-all duration-200 ${
+        className={`relative rounded-2xl border-2 border-dashed p-10 text-center transition-all duration-300 ${
           dragActive
-            ? "border-primary bg-primary/5 scale-[1.01]"
-            : "border-border hover:border-primary/40 hover:bg-muted/50"
+            ? "border-primary bg-primary/5 scale-[1.02] shadow-card-hover"
+            : "border-border hover:border-primary/30 hover:bg-muted/30"
         }`}
         onDragOver={(e) => { e.preventDefault(); setDragActive(true); }}
         onDragLeave={() => setDragActive(false)}
         onDrop={handleDrop}
       >
-        <div className="flex flex-col items-center gap-3">
-          <div className="rounded-full bg-primary/10 p-4">
+        <div className="flex flex-col items-center gap-4">
+          <div className={`rounded-2xl p-5 transition-all duration-300 ${
+            dragActive ? "bg-primary/15 scale-110" : "feature-icon-bg"
+          }`}>
             {extracting ? (
               <Loader2 className="h-8 w-8 text-primary animate-spin" />
             ) : (
@@ -176,16 +175,25 @@ const ContractUpload = ({ onAnalyze, isLoading }: ContractUploadProps) => {
             )}
           </div>
           <div>
-            <p className="text-lg font-medium text-foreground">
-              {extracting ? "Extraindo texto..." : "Arraste um arquivo aqui"}
+            <p className="text-lg font-semibold text-foreground">
+              {extracting ? "Extraindo texto do documento..." : "Arraste um arquivo aqui"}
             </p>
-            <p className="text-sm text-muted-foreground mt-1">
-              ou clique para selecionar (.pdf, .txt ou imagem)
+            <p className="text-sm text-muted-foreground mt-1.5">
+              ou clique para selecionar um arquivo do seu computador
             </p>
-            <div className="flex items-center justify-center gap-2 mt-2">
-              <FileText className="h-4 w-4 text-muted-foreground" />
-              <Image className="h-4 w-4 text-muted-foreground" />
-              <span className="text-xs text-muted-foreground">PDF, TXT, JPG, PNG, WEBP</span>
+          </div>
+          <div className="flex items-center gap-3 mt-1">
+            <div className="flex items-center gap-1.5 text-xs text-muted-foreground bg-muted rounded-full px-3 py-1.5">
+              <FileText className="h-3.5 w-3.5" />
+              PDF
+            </div>
+            <div className="flex items-center gap-1.5 text-xs text-muted-foreground bg-muted rounded-full px-3 py-1.5">
+              <FileText className="h-3.5 w-3.5" />
+              TXT
+            </div>
+            <div className="flex items-center gap-1.5 text-xs text-muted-foreground bg-muted rounded-full px-3 py-1.5">
+              <Image className="h-3.5 w-3.5" />
+              JPG / PNG / WEBP
             </div>
           </div>
           <input
@@ -198,23 +206,26 @@ const ContractUpload = ({ onAnalyze, isLoading }: ContractUploadProps) => {
         </div>
       </div>
 
+      {/* Divider */}
       <div className="flex items-center gap-4">
         <div className="flex-1 h-px bg-border" />
-        <span className="text-sm text-muted-foreground font-medium">ou cole o texto abaixo</span>
+        <span className="text-sm text-muted-foreground font-medium uppercase tracking-wider">ou cole o texto</span>
         <div className="flex-1 h-px bg-border" />
       </div>
 
+      {/* Textarea */}
       <Textarea
         value={contractText}
         onChange={(e) => setContractText(e.target.value)}
         placeholder="Cole aqui o texto do contrato que você deseja analisar..."
-        className="min-h-[200px] resize-y rounded-xl border-border bg-card text-base leading-relaxed font-body placeholder:text-muted-foreground/60"
+        className="min-h-[220px] resize-y rounded-2xl border-border bg-card text-base leading-relaxed font-body placeholder:text-muted-foreground/50 focus:ring-2 focus:ring-primary/20 transition-shadow duration-200"
       />
 
+      {/* Analyze Button */}
       <Button
         onClick={() => onAnalyze(contractText)}
-        disabled={isLoading || extracting || contractText.trim().length < 20}
-        className="w-full h-14 rounded-xl text-lg font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-200 disabled:opacity-50"
+        disabled={isLoading || extracting || !canAnalyze}
+        className="w-full h-14 rounded-2xl text-lg font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-300 hover:shadow-card-hover disabled:opacity-40"
         size="lg"
       >
         {isLoading ? (
@@ -230,9 +241,9 @@ const ContractUpload = ({ onAnalyze, isLoading }: ContractUploadProps) => {
         )}
       </Button>
 
-
-      {contractText.trim().length > 0 && contractText.trim().length < 20 && (
-        <p className="text-sm text-warning text-center">
+      {/* Validation hint */}
+      {hasText && !canAnalyze && (
+        <p className="text-sm text-warning text-center animate-fade-in">
           O texto precisa ter pelo menos 20 caracteres para análise.
         </p>
       )}
