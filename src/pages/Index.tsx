@@ -135,11 +135,11 @@ const Index = () => {
             ) : (
               <Button
                 variant="ghost"
-                size="sm"
+                size="default"
                 onClick={() => navigate("/auth")}
-                className="text-primary-foreground/60 hover:text-primary-foreground hover:bg-primary-foreground/8 rounded-full px-4 text-sm font-medium backdrop-blur-sm"
+                className="text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10 rounded-full px-5 text-base font-semibold backdrop-blur-sm"
               >
-                <LogIn className="mr-1.5 h-3.5 w-3.5" />
+                <LogIn className="mr-2 h-4.5 w-4.5" />
                 Entrar
               </Button>
             )}
