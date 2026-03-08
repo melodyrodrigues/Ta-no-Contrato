@@ -107,6 +107,18 @@ const AnalysisResult = ({ content, isStreaming, onNewAnalysis, onSaveHistory, co
       {!isStreaming && content && (
         <div className="mt-6 flex justify-center gap-3">
           <Button
+            onClick={handleSaveHistory}
+            disabled={saving}
+            className="rounded-xl bg-primary text-primary-foreground hover:bg-primary/90"
+          >
+            {saving ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              <BookmarkPlus className="mr-2 h-4 w-4" />
+            )}
+            Salvar no Histórico
+          </Button>
+          <Button
             onClick={onNewAnalysis}
             variant="outline"
             className="rounded-xl border-border hover:bg-muted"
