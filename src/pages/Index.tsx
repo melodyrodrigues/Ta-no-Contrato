@@ -150,9 +150,12 @@ const Index = () => {
               <Shield className="h-10 w-10 text-primary-foreground" />
             </div>
           </div>
-          <h1 className="text-4xl md:text-6xl font-heading text-primary-foreground mb-5 tracking-tight">
-            Entenda seu Contrato
+          <h1 className="text-4xl md:text-6xl font-heading text-primary-foreground mb-3 tracking-tight">
+            Tá no Contrato
           </h1>
+          <p className="text-base md:text-lg text-primary-foreground/60 font-body italic mb-5">
+            O que ninguém te explica, mas tá no contrato.
+          </p>
           <p className="text-lg md:text-xl text-primary-foreground/75 max-w-2xl mx-auto font-body leading-relaxed">
             Cole ou envie o texto do seu contrato e receba uma explicação clara,
             com alertas e pontos de atenção — tudo em linguagem simples.
