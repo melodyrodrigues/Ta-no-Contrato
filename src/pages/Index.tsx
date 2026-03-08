@@ -146,20 +146,20 @@ const Index = () => {
             )}
           </div>
 
-          <div className="flex justify-center mb-7 animate-float">
+          <div className="flex justify-center mb-5 animate-float">
             <img src={logo} alt="Tá no Contrato logo" className="h-24 w-24 md:h-28 md:w-28" />
           </div>
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-heading text-primary-foreground mb-4 tracking-tight text-balance">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-heading text-primary-foreground mb-3 tracking-tight text-balance">
             Tá no Contrato
           </h1>
-          <p className="text-base md:text-lg text-primary-foreground/40 font-body italic mb-6 tracking-wide">
+          <p className="text-base md:text-lg text-primary-foreground/40 font-body italic mb-5 tracking-wide">
             O que ninguém te explica, mas tá no contrato.
           </p>
           <p className="text-lg md:text-xl text-primary-foreground/65 max-w-2xl mx-auto font-body leading-relaxed text-balance">
             Cole ou envie o texto do seu contrato e receba uma explicação clara,
             com alertas e pontos de atenção — tudo em linguagem simples.
           </p>
-          <div className="flex items-center justify-center gap-2.5 mt-8">
+          <div className="flex items-center justify-center gap-2.5 mt-6">
             <Sparkles className="h-3.5 w-3.5 text-secondary/80" />
             <span className="text-xs text-primary-foreground/40 font-medium tracking-widest uppercase">Análise com Inteligência Artificial</span>
           </div>
