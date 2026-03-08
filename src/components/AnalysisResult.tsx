@@ -11,7 +11,6 @@ interface AnalysisResultProps {
   isStreaming: boolean;
   onNewAnalysis: () => void;
   onSaveHistory: () => Promise<void>;
-  contractText: string;
 }
 
 const AnalysisResult = ({ content, isStreaming, onNewAnalysis, onSaveHistory, _contractText }: AnalysisResultProps) => {
