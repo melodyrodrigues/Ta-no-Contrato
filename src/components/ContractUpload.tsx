@@ -209,7 +209,7 @@ const ContractUpload = ({ onAnalyze, isLoading }: ContractUploadProps) => {
       {/* Divider */}
       <div className="flex items-center gap-5">
         <div className="flex-1 premium-divider" />
-        <span className="text-xs text-muted-foreground/50 font-medium uppercase tracking-[0.2em]">ou cole o texto</span>
+        <span className="text-xs text-muted-foreground font-medium uppercase tracking-[0.2em]">ou cole o texto</span>
         <div className="flex-1 premium-divider" />
       </div>
 
