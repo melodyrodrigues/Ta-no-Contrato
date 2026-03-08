@@ -96,6 +96,8 @@ async function extractImageText(file: File): Promise<string> {
 const IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
 
 const ContractUpload = ({ onAnalyze, isLoading }: ContractUploadProps) => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const [contractText, setContractText] = useState("");
   const [dragActive, setDragActive] = useState(false);
   const [extracting, setExtracting] = useState(false);
