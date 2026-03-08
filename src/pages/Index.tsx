@@ -1,8 +1,12 @@
 import { useState, useCallback } from "react";
-import { Shield, FileSearch, AlertTriangle } from "lucide-react";
+import { Shield, FileSearch, AlertTriangle, History, LogIn, LogOut } from "lucide-react";
 import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
 import ContractUpload from "@/components/ContractUpload";
 import AnalysisResult from "@/components/AnalysisResult";
+import { Button } from "@/components/ui/button";
 
 const ANALYZE_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/analyze-contract`;
 
@@ -10,11 +14,35 @@ const Index = () => {
   const [analysis, setAnalysis] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showResult, setShowResult] = useState(false);
+  const [lastContractText, setLastContractText] = useState("");
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
+
+  const saveAnalysis = useCallback(async (contractText: string, result: string) => {
+    if (!user) return;
+    // Extract title from first line or first 60 chars
+    const firstLine = result.split("\n").find((l) => l.trim().length > 0) || "";
+    const title = firstLine.replace(/^#+\s*/, "").replace(/📄|📝|✅|⚠️|📌|❓|✔️|⚖️/g, "").trim().slice(0, 100) || "Contrato analisado";
+
+    const { error } = await supabase.from("contract_analyses").insert({
+      user_id: user.id,
+      title,
+      contract_text: contractText,
+      analysis_result: result,
+    });
+
+    if (error) {
+      console.error("Error saving analysis:", error);
+    } else {
+      toast.success("Análise salva no histórico!");
+    }
+  }, [user]);
 
   const handleAnalyze = useCallback(async (text: string) => {
     setIsLoading(true);
     setAnalysis("");
     setShowResult(true);
+    setLastContractText(text);
 
     try {
       const resp = await fetch(ANALYZE_URL, {
@@ -68,6 +96,11 @@ const Index = () => {
           }
         }
       }
+
+      // Save to history after streaming is complete
+      if (fullText.length > 0) {
+        await saveAnalysis(text, fullText);
+      }
     } catch (e) {
       console.error(e);
       toast.error("Erro ao conectar com o servidor de análise.");
@@ -75,7 +108,7 @@ const Index = () => {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [saveAnalysis]);
 
   const handleNewAnalysis = () => {
     setAnalysis("");
@@ -84,9 +117,44 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
       <header className="gradient-hero">
-        <div className="container max-w-4xl mx-auto px-4 py-12 md:py-20 text-center">
+        <div className="container max-w-4xl mx-auto px-4 py-12 md:py-20 text-center relative">
+          {/* Auth buttons */}
+          <div className="absolute top-4 right-4 flex gap-2">
+            {user ? (
+              <>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => navigate("/historico")}
+                  className="text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10"
+                >
+                  <History className="mr-1.5 h-4 w-4" />
+                  Histórico
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={signOut}
+                  className="text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10"
+                >
+                  <LogOut className="mr-1.5 h-4 w-4" />
+                  Sair
+                </Button>
+              </>
+            ) : (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => navigate("/auth")}
+                className="text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10"
+              >
+                <LogIn className="mr-1.5 h-4 w-4" />
+                Entrar
+              </Button>
+            )}
+          </div>
+
           <div className="flex justify-center mb-4">
             <div className="rounded-2xl bg-primary-foreground/10 backdrop-blur-sm p-3">
               <Shield className="h-10 w-10 text-primary-foreground" />
@@ -102,7 +170,6 @@ const Index = () => {
         </div>
       </header>
 
-      {/* Features */}
       {!showResult && (
         <section className="container max-w-4xl mx-auto px-4 -mt-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -121,7 +188,6 @@ const Index = () => {
         </section>
       )}
 
-      {/* Main content */}
       <main className="container max-w-4xl mx-auto px-4 py-10">
         {showResult ? (
           <AnalysisResult
@@ -134,7 +200,6 @@ const Index = () => {
         )}
       </main>
 
-      {/* Footer */}
       <footer className="border-t border-border py-6 text-center">
         <p className="text-sm text-muted-foreground">
           Esta ferramenta é informativa e não substitui orientação jurídica profissional.
