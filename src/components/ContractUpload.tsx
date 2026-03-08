@@ -225,7 +225,7 @@ const ContractUpload = ({ onAnalyze, isLoading }: ContractUploadProps) => {
       <Button
         onClick={() => onAnalyze(contractText)}
         disabled={isLoading || extracting || !canAnalyze}
-        className="w-full h-14 rounded-2xl text-base font-semibold bg-foreground text-background hover:bg-foreground/90 transition-all duration-500 ease-out hover:shadow-card-hover disabled:opacity-30"
+        className="w-full h-14 rounded-2xl text-base font-semibold bg-[hsl(220_60%_15%)] text-background hover:bg-[hsl(220_60%_20%)] transition-all duration-500 ease-out hover:shadow-card-hover disabled:opacity-30"
         size="lg"
       >
         {isLoading ? (
