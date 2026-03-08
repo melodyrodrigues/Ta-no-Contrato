@@ -88,9 +88,47 @@ const Auth = () => {
       <main className="flex-1 flex items-start justify-center px-4 py-10">
         <div className="w-full max-w-md rounded-2xl bg-card shadow-card border border-border p-8">
           <h2 className="text-xl font-heading text-foreground text-center mb-6">
-            {isLogin ? "Entrar na sua conta" : "Criar uma conta"}
+            {isForgotPassword ? "Recuperar senha" : isLogin ? "Entrar na sua conta" : "Criar uma conta"}
           </h2>
 
+          {isForgotPassword ? (
+            <form onSubmit={handleForgotPassword} className="space-y-4">
+              <p className="text-sm text-muted-foreground text-center">
+                Informe seu e-mail e enviaremos um link para redefinir sua senha.
+              </p>
+              <div className="space-y-2">
+                <Label htmlFor="reset-email">E-mail</Label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    id="reset-email"
+                    type="email"
+                    placeholder="seu@email.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="pl-10"
+                    required
+                  />
+                </div>
+              </div>
+              <Button
+                type="submit"
+                disabled={loading}
+                className="w-full h-12 rounded-xl text-base font-semibold bg-primary text-primary-foreground hover:bg-primary/90"
+              >
+                {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : "Enviar link de recuperação"}
+              </Button>
+              <div className="text-center">
+                <button
+                  type="button"
+                  onClick={() => setIsForgotPassword(false)}
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  Voltar ao login
+                </button>
+              </div>
+            </form>
+          ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
             {!isLogin && (
               <div className="space-y-2">
