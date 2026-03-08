@@ -14,7 +14,7 @@ interface AnalysisResultProps {
   contractText: string;
 }
 
-const AnalysisResult = ({ content, isStreaming, onNewAnalysis, onSaveHistory, contractText }: AnalysisResultProps) => {
+const AnalysisResult = ({ content, isStreaming, onNewAnalysis, onSaveHistory, _contractText }: AnalysisResultProps) => {
   const contentRef = useRef<HTMLDivElement>(null);
   const [exporting, setExporting] = useState(false);
   const [saving, setSaving] = useState(false);
