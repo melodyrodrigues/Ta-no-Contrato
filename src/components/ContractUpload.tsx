@@ -104,7 +104,7 @@ const ContractUpload = ({ onAnalyze, isLoading }: ContractUploadProps) => {
       try {
         const text = await extractPdfText(file);
         if (text.trim().length === 0) {
-          toast.error("Não foi possível extrair texto do PDF. O arquivo pode ser uma imagem escaneada.");
+          toast.error("Não foi possível extrair texto do PDF.");
           return;
         }
         setContractText(text);
