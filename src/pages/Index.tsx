@@ -173,10 +173,10 @@ const Index = () => {
             {FEATURES.map(({ icon: Icon, title, desc, delay }) => (
               <div
                 key={title}
-                className="group rounded-2xl bg-card shadow-premium border border-border/50 p-7 text-center hover:shadow-card-hover hover:-translate-y-1.5 transition-all duration-500 ease-out animate-fade-in-up"
+                className="group rounded-2xl bg-card shadow-premium border border-border/50 p-6 text-center hover:shadow-card-hover hover:-translate-y-1.5 transition-all duration-500 ease-out animate-fade-in-up"
                 style={{ animationDelay: delay }}
               >
-                <div className="feature-icon-bg rounded-xl p-3 w-12 h-12 mx-auto mb-4 flex items-center justify-center group-hover:scale-110 transition-transform duration-500 ease-out">
+                <div className="feature-icon-bg rounded-xl p-3 w-12 h-12 mx-auto mb-3 flex items-center justify-center group-hover:scale-110 transition-transform duration-500 ease-out">
                   <Icon className="h-5 w-5 text-primary" />
                 </div>
                 <h3 className="font-semibold text-foreground text-base mb-1.5">{title}</h3>
