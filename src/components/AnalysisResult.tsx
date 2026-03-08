@@ -24,7 +24,7 @@ const AnalysisResult = ({ content, isStreaming, onNewAnalysis }: AnalysisResultP
           )}
         </div>
 
-        <ScrollArea className="max-h-[70vh]">
+        <ScrollArea className="h-[60vh]">
           <div className="p-6 md:p-8">
             <div className="prose prose-sm md:prose-base max-w-none
               prose-headings:font-heading prose-headings:text-foreground
