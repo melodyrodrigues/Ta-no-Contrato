@@ -119,7 +119,7 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       {/* Hero */}
       <header className="gradient-hero">
-        <div className="container max-w-5xl mx-auto px-6 pt-8 pb-12 md:pt-10 md:pb-14 text-center relative z-10">
+        <div className="container max-w-5xl mx-auto px-6 pt-10 pb-14 md:pt-13 md:pb-18 text-center relative z-10">
           {/* Auth button */}
           <div className="absolute top-5 right-5 md:top-6 md:right-6">
             {user ? (
