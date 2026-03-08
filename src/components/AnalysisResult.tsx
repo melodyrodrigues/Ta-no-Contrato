@@ -1,7 +1,7 @@
 import { useRef, useCallback } from "react";
 import ReactMarkdown from "react-markdown";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { ArrowUp, Download, Loader2 } from "lucide-react";
+import { ArrowUp, Download, Loader2, BookmarkPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -10,11 +10,13 @@ interface AnalysisResultProps {
   content: string;
   isStreaming: boolean;
   onNewAnalysis: () => void;
+  onSaveHistory: () => Promise<void>;
 }
 
-const AnalysisResult = ({ content, isStreaming, onNewAnalysis }: AnalysisResultProps) => {
+const AnalysisResult = ({ content, isStreaming, onNewAnalysis, onSaveHistory }: AnalysisResultProps) => {
   const contentRef = useRef<HTMLDivElement>(null);
   const [exporting, setExporting] = useState(false);
+  const [saving, setSaving] = useState(false);
 
   const handleExportPdf = useCallback(async () => {
     if (!contentRef.current) return;
@@ -37,6 +39,17 @@ const AnalysisResult = ({ content, isStreaming, onNewAnalysis }: AnalysisResultP
       setExporting(false);
     }
   }, []);
+
+  const handleSaveHistory = useCallback(async () => {
+    setSaving(true);
+    try {
+      await onSaveHistory();
+    } catch (err) {
+      console.error("Save history error:", err);
+    } finally {
+      setSaving(false);
+    }
+  }, [onSaveHistory]);
 
   return (
     <div className="w-full max-w-3xl mx-auto animate-fade-in">
@@ -92,6 +105,18 @@ const AnalysisResult = ({ content, isStreaming, onNewAnalysis }: AnalysisResultP
 
       {!isStreaming && content && (
         <div className="mt-6 flex justify-center gap-3">
+          <Button
+            onClick={handleSaveHistory}
+            disabled={saving}
+            className="rounded-xl bg-primary text-primary-foreground hover:bg-primary/90"
+          >
+            {saving ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              <BookmarkPlus className="mr-2 h-4 w-4" />
+            )}
+            Salvar no Histórico
+          </Button>
           <Button
             onClick={onNewAnalysis}
             variant="outline"

@@ -97,9 +97,9 @@ const Index = () => {
         }
       }
 
-      // Save to history after streaming is complete
+      // Remove automatic save - user will save manually
       if (fullText.length > 0) {
-        await saveAnalysis(text, fullText);
+        // Just show success - manual save will happen via button
       }
     } catch (e) {
       console.error(e);
@@ -194,6 +194,7 @@ const Index = () => {
             content={analysis}
             isStreaming={isLoading}
             onNewAnalysis={handleNewAnalysis}
+            onSaveHistory={() => saveAnalysis(lastContractText, analysis)}
           />
         ) : (
           <ContractUpload onAnalyze={handleAnalyze} isLoading={isLoading} />
