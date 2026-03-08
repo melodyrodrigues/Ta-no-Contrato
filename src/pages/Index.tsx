@@ -194,7 +194,10 @@ const Index = () => {
             content={analysis}
             isStreaming={isLoading}
             onNewAnalysis={handleNewAnalysis}
-            onSaveHistory={() => saveAnalysis(lastContractText, analysis)}
+            onSaveHistory={async () => {
+              await saveAnalysis(lastContractText, analysis);
+              navigate("/historico");
+            }}
           />
         ) : (
           <ContractUpload onAnalyze={handleAnalyze} isLoading={isLoading} />
