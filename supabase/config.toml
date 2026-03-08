@@ -1,0 +1,4 @@
+project_id = "fsblxuioinfzokvtmqvo"
+
+[functions.analyze-contract]
+verify_jwt = false
