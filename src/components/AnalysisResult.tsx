@@ -13,7 +13,7 @@ interface AnalysisResultProps {
   onSaveHistory: () => Promise<void>;
 }
 
-const AnalysisResult = ({ content, isStreaming, onNewAnalysis, onSaveHistory, _contractText }: AnalysisResultProps) => {
+const AnalysisResult = ({ content, isStreaming, onNewAnalysis, onSaveHistory }: AnalysisResultProps) => {
   const contentRef = useRef<HTMLDivElement>(null);
   const [exporting, setExporting] = useState(false);
   const [saving, setSaving] = useState(false);
