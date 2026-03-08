@@ -207,7 +207,7 @@ const Index = () => {
       )}
 
       {/* Main Content */}
-      <main className="container max-w-4xl mx-auto px-6 py-16 md:py-20">
+      <main className="container max-w-4xl mx-auto px-6 py-12 md:py-16">
         {showResult ? (
           <AnalysisResult
             content={analysis}
