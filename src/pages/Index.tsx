@@ -200,7 +200,7 @@ const Index = () => {
               </div>
               <h3 className="font-semibold text-foreground text-base mb-1.5">Histórico</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">Análises salvas</p>
-              <p className="text-sm text-primary font-semibold mt-3 group-hover:underline">Acessar →</p>
+              <p className="text-sm text-primary font-semibold mt-2.5 group-hover:underline">Acessar →</p>
             </div>
           </div>
         </section>
