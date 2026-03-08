@@ -2,80 +2,36 @@ import { useState, useCallback } from "react";
 import { Upload, FileText, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { toast } from "sonner";
-import * as pdfjsLib from "pdfjs-dist";
-
-// Use the bundled worker
-pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.mjs`;
 
 interface ContractUploadProps {
   onAnalyze: (text: string) => void;
   isLoading: boolean;
 }
 
-const ACCEPTED_TYPES = ["text/plain", "application/pdf"];
-const ACCEPTED_EXTENSIONS = ".txt,.pdf";
-
-async function extractPdfText(file: File): Promise<string> {
-  const arrayBuffer = await file.arrayBuffer();
-  const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-  const pages: string[] = [];
-  for (let i = 1; i <= pdf.numPages; i++) {
-    const page = await pdf.getPage(i);
-    const content = await page.getTextContent();
-    const text = content.items
-      .map((item: any) => item.str)
-      .join(" ");
-    pages.push(text);
-  }
-  return pages.join("\n\n");
-}
-
 const ContractUpload = ({ onAnalyze, isLoading }: ContractUploadProps) => {
   const [contractText, setContractText] = useState("");
   const [dragActive, setDragActive] = useState(false);
-  const [extracting, setExtracting] = useState(false);
 
-  const handleFile = useCallback(async (file: File) => {
-    if (file.type === "application/pdf" || file.name.endsWith(".pdf")) {
-      setExtracting(true);
-      try {
-        const text = await extractPdfText(file);
-        if (text.trim().length === 0) {
-          toast.error("Não foi possível extrair texto do PDF. O arquivo pode ser uma imagem escaneada.");
-          return;
-        }
-        setContractText(text);
-        toast.success(`PDF carregado: ${file.name}`);
-      } catch (err) {
-        console.error("PDF extraction error:", err);
-        toast.error("Erro ao ler o PDF. Tente outro arquivo.");
-      } finally {
-        setExtracting(false);
-      }
-    } else if (file.type === "text/plain" || file.name.endsWith(".txt")) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const text = e.target?.result as string;
-        if (text) setContractText(text);
-      };
-      reader.readAsText(file);
-    } else {
-      toast.error("Formato não suportado. Use .txt ou .pdf");
-    }
+  const handleFileRead = useCallback((file: File) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const text = e.target?.result as string;
+      if (text) setContractText(text);
+    };
+    reader.readAsText(file);
   }, []);
 
   const handleDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     setDragActive(false);
     const file = e.dataTransfer.files[0];
-    if (file) handleFile(file);
-  }, [handleFile]);
+    if (file && file.type === "text/plain") handleFileRead(file);
+  }, [handleFileRead]);
 
   const handleFileInput = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) handleFile(file);
-  }, [handleFile]);
+    if (file) handleFileRead(file);
+  }, [handleFileRead]);
 
   return (
     <div className="w-full max-w-3xl mx-auto space-y-6">
@@ -92,26 +48,21 @@ const ContractUpload = ({ onAnalyze, isLoading }: ContractUploadProps) => {
       >
         <div className="flex flex-col items-center gap-3">
           <div className="rounded-full bg-primary/10 p-4">
-            {extracting ? (
-              <Loader2 className="h-8 w-8 text-primary animate-spin" />
-            ) : (
-              <Upload className="h-8 w-8 text-primary" />
-            )}
+            <Upload className="h-8 w-8 text-primary" />
           </div>
           <div>
             <p className="text-lg font-medium text-foreground">
-              {extracting ? "Extraindo texto do PDF..." : "Arraste um arquivo aqui"}
+              Arraste um arquivo de texto aqui
             </p>
             <p className="text-sm text-muted-foreground mt-1">
-              ou clique para selecionar (.pdf ou .txt)
+              ou clique para selecionar (.txt)
             </p>
           </div>
           <input
             type="file"
-            accept={ACCEPTED_EXTENSIONS}
+            accept=".txt"
             onChange={handleFileInput}
             className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-            disabled={extracting}
           />
         </div>
       </div>
@@ -134,7 +85,7 @@ const ContractUpload = ({ onAnalyze, isLoading }: ContractUploadProps) => {
       {/* Action button */}
       <Button
         onClick={() => onAnalyze(contractText)}
-        disabled={isLoading || extracting || contractText.trim().length < 20}
+        disabled={isLoading || contractText.trim().length < 20}
         className="w-full h-14 rounded-xl text-lg font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-200 disabled:opacity-50"
         size="lg"
       >
