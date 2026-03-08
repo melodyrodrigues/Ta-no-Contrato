@@ -1,11 +1,13 @@
 import { useState, useCallback } from "react";
-import { Upload, FileText, Loader2 } from "lucide-react";
+import { Upload, FileText, Loader2, Image } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import * as pdfjsLib from "pdfjs-dist";
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.mjs`;
+
+const EXTRACT_IMAGE_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/extract-text-from-image`;
 
 interface ContractUploadProps {
   onAnalyze: (text: string) => void;
@@ -24,6 +26,32 @@ async function extractPdfText(file: File): Promise<string> {
   }
   return pages.join("\n\n");
 }
+
+async function extractImageText(file: File): Promise<string> {
+  const arrayBuffer = await file.arrayBuffer();
+  const base64 = btoa(
+    new Uint8Array(arrayBuffer).reduce((data, byte) => data + String.fromCharCode(byte), "")
+  );
+
+  const resp = await fetch(EXTRACT_IMAGE_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+    },
+    body: JSON.stringify({ imageBase64: base64, mimeType: file.type }),
+  });
+
+  if (!resp.ok) {
+    const err = await resp.json().catch(() => ({ error: "Erro desconhecido" }));
+    throw new Error(err.error || "Erro ao extrair texto da imagem");
+  }
+
+  const data = await resp.json();
+  return data.text;
+}
+
+const IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
 
 const ContractUpload = ({ onAnalyze, isLoading }: ContractUploadProps) => {
   const [contractText, setContractText] = useState("");
@@ -47,6 +75,18 @@ const ContractUpload = ({ onAnalyze, isLoading }: ContractUploadProps) => {
       } finally {
         setExtracting(false);
       }
+    } else if (IMAGE_TYPES.includes(file.type)) {
+      setExtracting(true);
+      try {
+        const text = await extractImageText(file);
+        setContractText(text);
+        toast.success(`Texto extraído da imagem: ${file.name}`);
+      } catch (err: any) {
+        console.error("Image extraction error:", err);
+        toast.error(err.message || "Erro ao extrair texto da imagem.");
+      } finally {
+        setExtracting(false);
+      }
     } else if (file.type === "text/plain" || file.name.endsWith(".txt")) {
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -55,7 +95,7 @@ const ContractUpload = ({ onAnalyze, isLoading }: ContractUploadProps) => {
       };
       reader.readAsText(file);
     } else {
-      toast.error("Formato não suportado. Use .pdf ou .txt");
+      toast.error("Formato não suportado. Use .pdf, .txt ou imagem (.jpg, .png, .webp)");
     }
   }, []);
 
@@ -93,15 +133,20 @@ const ContractUpload = ({ onAnalyze, isLoading }: ContractUploadProps) => {
           </div>
           <div>
             <p className="text-lg font-medium text-foreground">
-              {extracting ? "Extraindo texto do PDF..." : "Arraste um arquivo aqui"}
+              {extracting ? "Extraindo texto..." : "Arraste um arquivo aqui"}
             </p>
             <p className="text-sm text-muted-foreground mt-1">
-              ou clique para selecionar (.pdf ou .txt)
+              ou clique para selecionar (.pdf, .txt ou imagem)
             </p>
+            <div className="flex items-center justify-center gap-2 mt-2">
+              <FileText className="h-4 w-4 text-muted-foreground" />
+              <Image className="h-4 w-4 text-muted-foreground" />
+              <span className="text-xs text-muted-foreground">PDF, TXT, JPG, PNG, WEBP</span>
+            </div>
           </div>
           <input
             type="file"
-            accept=".pdf,.txt"
+            accept=".pdf,.txt,.jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
             onChange={handleFileInput}
             className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
             disabled={extracting}
