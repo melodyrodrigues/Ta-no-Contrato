@@ -180,8 +180,8 @@ const Index = () => {
                 <div className="feature-icon-bg rounded-xl p-3 w-12 h-12 mx-auto mb-4 flex items-center justify-center group-hover:scale-110 transition-transform duration-500 ease-out">
                   <Icon className="h-5 w-5 text-primary" />
                 </div>
-                <h3 className="font-semibold text-foreground text-sm mb-1.5">{title}</h3>
-                <p className="text-xs text-muted-foreground leading-relaxed">{desc}</p>
+                <h3 className="font-semibold text-foreground text-base mb-1.5">{title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{desc}</p>
               </div>
             ))}
             {user && (
@@ -193,9 +193,9 @@ const Index = () => {
                 <div className="feature-icon-bg rounded-xl p-3 w-12 h-12 mx-auto mb-4 flex items-center justify-center group-hover:scale-110 transition-transform duration-500 ease-out">
                   <History className="h-5 w-5 text-primary" />
                 </div>
-                <h3 className="font-semibold text-foreground text-sm mb-1.5">Histórico</h3>
-                <p className="text-xs text-muted-foreground leading-relaxed">Análises salvas</p>
-                <p className="text-xs text-primary font-semibold mt-3 group-hover:underline">Acessar →</p>
+                <h3 className="font-semibold text-foreground text-base mb-1.5">Histórico</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">Análises salvas</p>
+                <p className="text-sm text-primary font-semibold mt-3 group-hover:underline">Acessar →</p>
               </div>
             )}
           </div>
