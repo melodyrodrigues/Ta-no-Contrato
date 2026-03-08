@@ -146,12 +146,9 @@ const Index = () => {
             )}
           </div>
 
-          <div className="flex items-center justify-center gap-3 mb-3 animate-float">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-heading text-primary-foreground tracking-tight text-balance">
-              Tá no Contrato
-            </h1>
-            <img src={logo} alt="Tá no Contrato logo" className="h-10 w-10 md:h-14 md:w-14 lg:h-16 lg:w-16" />
-          </div>
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-heading text-primary-foreground mb-3 tracking-tight text-balance animate-float">
+            Tá no Contrato
+          </h1>
           <p className="text-base md:text-lg text-primary-foreground/40 font-body italic mb-5 tracking-wide">
             O que ninguém te explica, mas tá no contrato.
           </p>
