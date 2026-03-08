@@ -107,7 +107,6 @@ const History = () => {
               onSaveHistory={async () => {
                 toast.success("Esta análise já foi salva!");
               }}
-              contractText={selected.contract_text}
             />
           </div>
         ) : analyses.length === 0 ? (
