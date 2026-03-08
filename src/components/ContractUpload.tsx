@@ -204,21 +204,6 @@ const ContractUpload = ({ onAnalyze, isLoading }: ContractUploadProps) => {
         <div className="flex-1 h-px bg-border" />
       </div>
 
-      {user && (
-        <div
-          className="rounded-xl bg-card shadow-card border border-border p-4 flex items-center gap-4 cursor-pointer hover:shadow-card-hover transition-shadow"
-          onClick={() => navigate("/historico")}
-        >
-          <div className="rounded-full bg-primary/10 p-3">
-            <History className="h-5 w-5 text-primary" />
-          </div>
-          <div>
-            <h3 className="font-semibold text-foreground text-sm">Histórico de Análises</h3>
-            <p className="text-xs text-muted-foreground">Acesse suas análises salvas</p>
-          </div>
-        </div>
-      )}
-
       <Textarea
         value={contractText}
         onChange={(e) => setContractText(e.target.value)}
@@ -244,6 +229,21 @@ const ContractUpload = ({ onAnalyze, isLoading }: ContractUploadProps) => {
           </>
         )}
       </Button>
+
+      {user && (
+        <div
+          className="rounded-xl bg-card shadow-card border border-border p-4 flex items-center gap-4 cursor-pointer hover:shadow-card-hover transition-shadow"
+          onClick={() => navigate("/historico")}
+        >
+          <div className="rounded-full bg-primary/10 p-3">
+            <History className="h-5 w-5 text-primary" />
+          </div>
+          <div>
+            <h3 className="font-semibold text-foreground text-sm">Histórico de Análises</h3>
+            <p className="text-xs text-muted-foreground">Acesse suas análises salvas</p>
+          </div>
+        </div>
+      )}
 
       {contractText.trim().length > 0 && contractText.trim().length < 20 && (
         <p className="text-sm text-warning text-center">
