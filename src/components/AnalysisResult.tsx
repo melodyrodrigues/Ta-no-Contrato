@@ -41,6 +41,17 @@ const AnalysisResult = ({ content, isStreaming, onNewAnalysis, onSaveHistory, co
     }
   }, []);
 
+  const handleSaveHistory = useCallback(async () => {
+    setSaving(true);
+    try {
+      await onSaveHistory();
+    } catch (err) {
+      console.error("Save history error:", err);
+    } finally {
+      setSaving(false);
+    }
+  }, [onSaveHistory]);
+
   return (
     <div className="w-full max-w-3xl mx-auto animate-fade-in">
       <div className="rounded-2xl bg-card shadow-card border border-border overflow-hidden">
