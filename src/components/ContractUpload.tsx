@@ -152,48 +152,48 @@ const ContractUpload = ({ onAnalyze, isLoading }: ContractUploadProps) => {
   const hasText = contractText.trim().length > 0;
 
   return (
-    <div className="w-full max-w-3xl mx-auto space-y-8 animate-fade-in">
+    <div className="w-full max-w-3xl mx-auto space-y-10 animate-fade-in">
       {/* Drop Zone */}
       <div
-        className={`relative rounded-2xl border-2 border-dashed p-10 text-center transition-all duration-300 ${
+        className={`relative rounded-2xl border-2 border-dashed p-12 md:p-16 text-center transition-all duration-500 ease-out ${
           dragActive
-            ? "border-primary bg-primary/5 scale-[1.02] shadow-card-hover"
-            : "border-border hover:border-primary/30 hover:bg-muted/30"
+            ? "border-primary bg-primary/5 scale-[1.01] shadow-card-hover"
+            : "border-border/70 hover:border-primary/25 hover:bg-muted/20"
         }`}
         onDragOver={(e) => { e.preventDefault(); setDragActive(true); }}
         onDragLeave={() => setDragActive(false)}
         onDrop={handleDrop}
       >
-        <div className="flex flex-col items-center gap-4">
-          <div className={`rounded-2xl p-5 transition-all duration-300 ${
-            dragActive ? "bg-primary/15 scale-110" : "feature-icon-bg"
+        <div className="flex flex-col items-center gap-5">
+          <div className={`rounded-2xl p-5 transition-all duration-500 ease-out ${
+            dragActive ? "bg-primary/12 scale-110" : "feature-icon-bg"
           }`}>
             {extracting ? (
-              <Loader2 className="h-8 w-8 text-primary animate-spin" />
+              <Loader2 className="h-7 w-7 text-primary animate-spin" />
             ) : (
-              <Upload className="h-8 w-8 text-primary" />
+              <Upload className="h-7 w-7 text-primary" />
             )}
           </div>
-          <div>
+          <div className="space-y-2">
             <p className="text-lg font-semibold text-foreground">
               {extracting ? "Extraindo texto do documento..." : "Arraste um arquivo aqui"}
             </p>
-            <p className="text-sm text-muted-foreground mt-1.5">
+            <p className="text-sm text-muted-foreground/70">
               ou clique para selecionar um arquivo do seu computador
             </p>
           </div>
-          <div className="flex items-center gap-3 mt-1">
-            <div className="flex items-center gap-1.5 text-xs text-muted-foreground bg-muted rounded-full px-3 py-1.5">
-              <FileText className="h-3.5 w-3.5" />
+          <div className="flex items-center gap-2.5 mt-2">
+            <div className="flex items-center gap-1.5 text-xs text-muted-foreground/60 bg-muted/60 rounded-full px-3 py-1.5 font-medium">
+              <FileText className="h-3 w-3" />
               PDF
             </div>
-            <div className="flex items-center gap-1.5 text-xs text-muted-foreground bg-muted rounded-full px-3 py-1.5">
-              <FileText className="h-3.5 w-3.5" />
+            <div className="flex items-center gap-1.5 text-xs text-muted-foreground/60 bg-muted/60 rounded-full px-3 py-1.5 font-medium">
+              <FileText className="h-3 w-3" />
               TXT
             </div>
-            <div className="flex items-center gap-1.5 text-xs text-muted-foreground bg-muted rounded-full px-3 py-1.5">
-              <Image className="h-3.5 w-3.5" />
-              JPG / PNG / WEBP
+            <div className="flex items-center gap-1.5 text-xs text-muted-foreground/60 bg-muted/60 rounded-full px-3 py-1.5 font-medium">
+              <Image className="h-3 w-3" />
+              JPG / PNG
             </div>
           </div>
           <input
@@ -207,10 +207,10 @@ const ContractUpload = ({ onAnalyze, isLoading }: ContractUploadProps) => {
       </div>
 
       {/* Divider */}
-      <div className="flex items-center gap-4">
-        <div className="flex-1 h-px bg-border" />
-        <span className="text-sm text-muted-foreground font-medium uppercase tracking-wider">ou cole o texto</span>
-        <div className="flex-1 h-px bg-border" />
+      <div className="flex items-center gap-5">
+        <div className="flex-1 premium-divider" />
+        <span className="text-xs text-muted-foreground/50 font-medium uppercase tracking-[0.2em]">ou cole o texto</span>
+        <div className="flex-1 premium-divider" />
       </div>
 
       {/* Textarea */}
@@ -218,24 +218,24 @@ const ContractUpload = ({ onAnalyze, isLoading }: ContractUploadProps) => {
         value={contractText}
         onChange={(e) => setContractText(e.target.value)}
         placeholder="Cole aqui o texto do contrato que você deseja analisar..."
-        className="min-h-[220px] resize-y rounded-2xl border-border bg-card text-base leading-relaxed font-body placeholder:text-muted-foreground/50 focus:ring-2 focus:ring-primary/20 transition-shadow duration-200"
+        className="min-h-[200px] resize-y rounded-2xl border-border/60 bg-card text-base leading-relaxed font-body placeholder:text-muted-foreground/40 focus:ring-2 focus:ring-primary/15 focus:border-primary/30 transition-all duration-300 p-5"
       />
 
       {/* Analyze Button */}
       <Button
         onClick={() => onAnalyze(contractText)}
         disabled={isLoading || extracting || !canAnalyze}
-        className="w-full h-14 rounded-2xl text-lg font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-300 hover:shadow-card-hover disabled:opacity-40"
+        className="w-full h-14 rounded-2xl text-base font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-500 ease-out hover:shadow-card-hover disabled:opacity-30"
         size="lg"
       >
         {isLoading ? (
           <>
-            <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+            <Loader2 className="mr-2.5 h-5 w-5 animate-spin" />
             Analisando contrato...
           </>
         ) : (
           <>
-            <FileText className="mr-2 h-5 w-5" />
+            <FileText className="mr-2.5 h-5 w-5" />
             Analisar Contrato
           </>
         )}
