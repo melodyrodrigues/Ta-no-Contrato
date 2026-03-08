@@ -107,7 +107,18 @@
 
 @layer utilities {
   .gradient-hero {
-    background: linear-gradient(135deg, hsl(220 60% 25%), hsl(220 50% 35%), hsl(160 40% 45%));
+    background: linear-gradient(135deg, hsl(220 60% 22%), hsl(220 50% 32%), hsl(200 45% 38%), hsl(160 40% 42%));
+    position: relative;
+    overflow: hidden;
+  }
+
+  .gradient-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 20%, hsl(220 60% 35% / 0.4) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 80%, hsl(160 40% 45% / 0.3) 0%, transparent 50%);
+    pointer-events: none;
   }
 
   .gradient-card {
@@ -115,10 +126,22 @@
   }
 
   .shadow-card {
-    box-shadow: 0 4px 24px -4px hsl(220 30% 15% / 0.08), 0 1px 3px hsl(220 30% 15% / 0.04);
+    box-shadow: 0 1px 3px hsl(220 30% 15% / 0.04),
+                0 4px 24px -4px hsl(220 30% 15% / 0.06);
   }
 
   .shadow-card-hover {
-    box-shadow: 0 8px 32px -4px hsl(220 30% 15% / 0.12), 0 2px 6px hsl(220 30% 15% / 0.06);
+    box-shadow: 0 2px 6px hsl(220 30% 15% / 0.06),
+                0 12px 40px -8px hsl(220 30% 15% / 0.12);
+  }
+
+  .glass-card {
+    background: hsl(var(--card) / 0.8);
+    backdrop-filter: blur(12px);
+    border: 1px solid hsl(var(--border) / 0.6);
+  }
+
+  .feature-icon-bg {
+    background: linear-gradient(135deg, hsl(var(--primary) / 0.08), hsl(var(--primary) / 0.15));
   }
 }
