@@ -14,7 +14,7 @@ interface ContractUploadProps {
   isLoading: boolean;
 }
 
-async function extractPdfText(file: File): Promise<string> {
+async function extractPdfTextNative(file: File): Promise<string> {
   const arrayBuffer = await file.arrayBuffer();
   const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
   const pages: string[] = [];
@@ -25,6 +25,46 @@ async function extractPdfText(file: File): Promise<string> {
     pages.push(text);
   }
   return pages.join("\n\n");
+}
+
+async function extractPdfViaOCR(file: File): Promise<string> {
+  const arrayBuffer = await file.arrayBuffer();
+  const base64 = btoa(
+    new Uint8Array(arrayBuffer).reduce((data, byte) => data + String.fromCharCode(byte), "")
+  );
+
+  const resp = await fetch(EXTRACT_IMAGE_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+    },
+    body: JSON.stringify({ imageBase64: base64, mimeType: "application/pdf" }),
+  });
+
+  if (!resp.ok) {
+    const err = await resp.json().catch(() => ({ error: "Erro desconhecido" }));
+    throw new Error(err.error || "Erro ao extrair texto do PDF via OCR");
+  }
+
+  const data = await resp.json();
+  return data.text;
+}
+
+async function extractPdfText(file: File): Promise<string> {
+  // Try native text extraction first
+  try {
+    const text = await extractPdfTextNative(file);
+    if (text.trim().length > 50) {
+      return text;
+    }
+  } catch (e) {
+    console.log("Native PDF extraction failed, falling back to OCR:", e);
+  }
+
+  // Fallback to OCR for scanned PDFs
+  console.log("PDF appears to be scanned, using OCR...");
+  return await extractPdfViaOCR(file);
 }
 
 async function extractImageText(file: File): Promise<string> {
