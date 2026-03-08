@@ -168,8 +168,8 @@ const Index = () => {
 
       {/* Feature Cards */}
       {!showResult && (
-        <section className="container max-w-5xl mx-auto px-6 -mt-14 relative z-20">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <section className="container max-w-5xl mx-auto px-6 -mt-10 relative z-20">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {FEATURES.map(({ icon: Icon, title, desc, delay }) => (
               <div
                 key={title}
