@@ -175,24 +175,24 @@ const ContractUpload = ({ onAnalyze, isLoading }: ContractUploadProps) => {
             )}
           </div>
           <div className="space-y-2">
-            <p className="text-lg font-semibold text-foreground">
+            <p className="text-xl font-semibold text-foreground">
               {extracting ? "Extraindo texto do documento..." : "Arraste um arquivo aqui"}
             </p>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-base text-muted-foreground">
               ou clique para selecionar um arquivo do seu computador
             </p>
           </div>
           <div className="flex items-center gap-2.5 mt-2">
-            <div className="flex items-center gap-1.5 text-xs text-muted-foreground bg-muted rounded-full px-3 py-1.5 font-medium">
-              <FileText className="h-3 w-3" />
+            <div className="flex items-center gap-1.5 text-sm text-muted-foreground bg-muted rounded-full px-3.5 py-1.5 font-medium">
+              <FileText className="h-3.5 w-3.5" />
               PDF
             </div>
-            <div className="flex items-center gap-1.5 text-xs text-muted-foreground bg-muted rounded-full px-3 py-1.5 font-medium">
-              <FileText className="h-3 w-3" />
+            <div className="flex items-center gap-1.5 text-sm text-muted-foreground bg-muted rounded-full px-3.5 py-1.5 font-medium">
+              <FileText className="h-3.5 w-3.5" />
               TXT
             </div>
-            <div className="flex items-center gap-1.5 text-xs text-muted-foreground bg-muted rounded-full px-3 py-1.5 font-medium">
-              <Image className="h-3 w-3" />
+            <div className="flex items-center gap-1.5 text-sm text-muted-foreground bg-muted rounded-full px-3.5 py-1.5 font-medium">
+              <Image className="h-3.5 w-3.5" />
               JPG / PNG
             </div>
           </div>
@@ -209,7 +209,7 @@ const ContractUpload = ({ onAnalyze, isLoading }: ContractUploadProps) => {
       {/* Divider */}
       <div className="flex items-center gap-5">
         <div className="flex-1 premium-divider" />
-        <span className="text-xs text-muted-foreground font-medium uppercase tracking-[0.2em]">ou cole o texto</span>
+        <span className="text-sm text-muted-foreground font-medium uppercase tracking-[0.2em]">ou cole o texto</span>
         <div className="flex-1 premium-divider" />
       </div>
 
@@ -218,14 +218,14 @@ const ContractUpload = ({ onAnalyze, isLoading }: ContractUploadProps) => {
         value={contractText}
         onChange={(e) => setContractText(e.target.value)}
         placeholder="Cole aqui o texto do contrato que você deseja analisar..."
-        className="min-h-[200px] resize-y rounded-2xl border-border bg-card text-foreground text-base leading-relaxed font-body placeholder:text-muted-foreground focus:ring-2 focus:ring-primary/15 focus:border-primary/30 transition-all duration-300 p-5"
+        className="min-h-[200px] resize-y rounded-2xl border-border bg-card text-foreground text-lg leading-relaxed font-body placeholder:text-muted-foreground focus:ring-2 focus:ring-primary/15 focus:border-primary/30 transition-all duration-300 p-5"
       />
 
       {/* Analyze Button */}
       <Button
         onClick={() => onAnalyze(contractText)}
         disabled={isLoading || extracting || !canAnalyze}
-        className="w-full h-14 rounded-2xl text-base font-semibold text-white transition-all duration-500 ease-out hover:shadow-card-hover disabled:opacity-30"
+        className="w-full h-14 rounded-2xl text-lg font-semibold text-white transition-all duration-500 ease-out hover:shadow-card-hover disabled:opacity-30"
         style={{ backgroundColor: "hsl(220, 60%, 15%)" }}
         size="lg"
       >
