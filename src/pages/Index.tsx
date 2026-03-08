@@ -229,8 +229,8 @@ const Index = () => {
       </main>
 
       {/* Footer */}
-      <footer className="py-10 text-center">
-        <div className="premium-divider max-w-xs mx-auto mb-8" />
+      <footer className="py-8 text-center">
+        <div className="premium-divider max-w-xs mx-auto mb-6" />
         <p className="text-xs text-muted-foreground/50 tracking-wide">
           Esta ferramenta é informativa e não substitui orientação jurídica profissional.
         </p>
