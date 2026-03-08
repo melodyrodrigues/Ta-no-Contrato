@@ -75,9 +75,9 @@ const Auth = () => {
           <div className="absolute top-5 left-5 md:top-6 md:left-6">
             <Button
               variant="ghost"
-              size="default"
+              size="lg"
               onClick={() => navigate("/")}
-              className="text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10 rounded-full px-5 text-base font-semibold backdrop-blur-sm"
+              className="text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10 rounded-full px-8 text-2xl font-bold backdrop-blur-sm h-14"
             >
               ← Voltar
             </Button>

@@ -137,9 +137,9 @@ const Index = () => {
                 variant="ghost"
                 size="lg"
                 onClick={() => navigate("/auth")}
-                className="text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10 rounded-full px-7 text-lg font-bold backdrop-blur-sm"
+                className="text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10 rounded-full px-8 text-2xl font-bold backdrop-blur-sm h-14"
               >
-                <LogIn className="mr-2.5 h-5 w-5" />
+                <LogIn className="mr-3 h-6 w-6" />
                 Entrar
               </Button>
             )}
