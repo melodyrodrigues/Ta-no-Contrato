@@ -19,7 +19,7 @@ const Auth = () => {
   const { user } = useAuth();
 
   useEffect(() => {
-    if (user) navigate("/");
+    if (user) navigate("/historico");
   }, [user, navigate]);
 
   const handleForgotPassword = async (e: React.FormEvent) => {
@@ -47,7 +47,7 @@ const Auth = () => {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
         toast.success("Login realizado com sucesso!");
-        navigate("/");
+        navigate("/historico");
       } else {
         const { error } = await supabase.auth.signUp({
           email,
