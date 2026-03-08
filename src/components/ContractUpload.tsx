@@ -157,8 +157,8 @@ const ContractUpload = ({ onAnalyze, isLoading }: ContractUploadProps) => {
       <div
         className={`relative rounded-2xl border-2 border-dashed p-12 md:p-16 text-center transition-all duration-500 ease-out ${
           dragActive
-            ? "border-primary bg-primary/5 scale-[1.01] shadow-card-hover"
-            : "border-border/70 hover:border-primary/25 hover:bg-muted/20"
+            ? "border-primary bg-white scale-[1.01] shadow-card-hover"
+            : "border-border/70 bg-white hover:border-primary/25 hover:bg-white"
         }`}
         onDragOver={(e) => { e.preventDefault(); setDragActive(true); }}
         onDragLeave={() => setDragActive(false)}
