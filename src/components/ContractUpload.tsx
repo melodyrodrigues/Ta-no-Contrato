@@ -218,7 +218,7 @@ const ContractUpload = ({ onAnalyze, isLoading }: ContractUploadProps) => {
         value={contractText}
         onChange={(e) => setContractText(e.target.value)}
         placeholder="Cole aqui o texto do contrato que você deseja analisar..."
-        className="min-h-[200px] resize-y rounded-2xl border-border/60 bg-card text-base leading-relaxed font-body placeholder:text-muted-foreground/40 focus:ring-2 focus:ring-primary/15 focus:border-primary/30 transition-all duration-300 p-5"
+        className="min-h-[200px] resize-y rounded-2xl border-border bg-card text-foreground text-base leading-relaxed font-body placeholder:text-muted-foreground focus:ring-2 focus:ring-primary/15 focus:border-primary/30 transition-all duration-300 p-5"
       />
 
       {/* Analyze Button */}
