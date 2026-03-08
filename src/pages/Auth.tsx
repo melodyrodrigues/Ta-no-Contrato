@@ -77,7 +77,7 @@ const Auth = () => {
             </div>
           </div>
           <h1 className="text-2xl md:text-4xl font-heading text-primary-foreground">
-            Entenda seu Contrato
+            Tá no Contrato
           </h1>
         </div>
       </header>
