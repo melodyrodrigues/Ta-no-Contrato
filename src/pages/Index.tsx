@@ -147,7 +147,7 @@ const Index = () => {
           </div>
 
           <div className="flex justify-center mb-7 animate-float">
-            <img src={logo} alt="Tá no Contrato logo" className="h-16 w-16 md:h-20 md:w-20" />
+            <img src={logo} alt="Tá no Contrato logo" className="h-24 w-24 md:h-28 md:w-28" />
           </div>
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-heading text-primary-foreground mb-4 tracking-tight text-balance">
             Tá no Contrato
