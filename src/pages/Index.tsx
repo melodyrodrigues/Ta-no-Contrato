@@ -195,7 +195,6 @@ const Index = () => {
             isStreaming={isLoading}
             onNewAnalysis={handleNewAnalysis}
             onSaveHistory={() => saveAnalysis(lastContractText, analysis)}
-            contractText={lastContractText}
           />
         ) : (
           <ContractUpload onAnalyze={handleAnalyze} isLoading={isLoading} />
