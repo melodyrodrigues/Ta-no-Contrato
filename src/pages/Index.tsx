@@ -161,7 +161,7 @@ const Index = () => {
 
       {!showResult && (
         <section className="container max-w-4xl mx-auto px-4 -mt-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
               { icon: FileSearch, title: "Análise Completa", desc: "Resumo, cláusulas e checklist" },
               { icon: AlertTriangle, title: "Alertas de Risco", desc: "Multas, juros e pegadinhas" },
@@ -173,6 +173,16 @@ const Index = () => {
                 <p className="text-xs text-muted-foreground mt-1">{desc}</p>
               </div>
             ))}
+            {user && (
+              <div
+                className="rounded-xl bg-card shadow-card border border-border p-5 text-center cursor-pointer hover:shadow-card-hover transition-shadow"
+                onClick={() => navigate("/historico")}
+              >
+                <History className="h-6 w-6 text-primary mx-auto mb-2" />
+                <h3 className="font-semibold text-foreground text-sm">Histórico</h3>
+                <p className="text-xs text-muted-foreground mt-1">Análises salvas</p>
+              </div>
+            )}
           </div>
         </section>
       )}
