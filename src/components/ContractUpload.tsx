@@ -178,20 +178,20 @@ const ContractUpload = ({ onAnalyze, isLoading }: ContractUploadProps) => {
             <p className="text-lg font-semibold text-foreground">
               {extracting ? "Extraindo texto do documento..." : "Arraste um arquivo aqui"}
             </p>
-            <p className="text-sm text-muted-foreground/70">
+            <p className="text-sm text-muted-foreground">
               ou clique para selecionar um arquivo do seu computador
             </p>
           </div>
           <div className="flex items-center gap-2.5 mt-2">
-            <div className="flex items-center gap-1.5 text-xs text-muted-foreground/60 bg-muted/60 rounded-full px-3 py-1.5 font-medium">
+            <div className="flex items-center gap-1.5 text-xs text-muted-foreground bg-muted rounded-full px-3 py-1.5 font-medium">
               <FileText className="h-3 w-3" />
               PDF
             </div>
-            <div className="flex items-center gap-1.5 text-xs text-muted-foreground/60 bg-muted/60 rounded-full px-3 py-1.5 font-medium">
+            <div className="flex items-center gap-1.5 text-xs text-muted-foreground bg-muted rounded-full px-3 py-1.5 font-medium">
               <FileText className="h-3 w-3" />
               TXT
             </div>
-            <div className="flex items-center gap-1.5 text-xs text-muted-foreground/60 bg-muted/60 rounded-full px-3 py-1.5 font-medium">
+            <div className="flex items-center gap-1.5 text-xs text-muted-foreground bg-muted rounded-full px-3 py-1.5 font-medium">
               <Image className="h-3 w-3" />
               JPG / PNG
             </div>
